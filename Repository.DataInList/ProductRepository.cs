@@ -58,6 +58,9 @@ namespace Repository.DataInList
             Product product = await GetByIdAsync(entity.Id);
 
             if (product == null)
+                throw new ArgumentNullException(nameof(entity));
+
+            if (await GetByIdAsync(entity.Id) == null)
                 throw new ArgumentException($"Products with Id:{entity.Id}; not exists.");
 
             if (await GetByNameAsync(entity.Name) != null)

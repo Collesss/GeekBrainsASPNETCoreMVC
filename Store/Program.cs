@@ -1,5 +1,5 @@
 using Repository.DataInList;
-using Repository.DataInList.TestData;
+using Repository.DataInList.TestData.Extensions;
 using Repository.Interfaces;
 using Store.AutoMapperProfiles;
 

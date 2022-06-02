@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 
-namespace Repository.DataInList.TestData
+namespace Repository.DataInList.TestData.Extensions
 {
     public static class ServiceCollectionExtensions
     {
