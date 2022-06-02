@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Validator.Interfaces
+namespace Store.Validator.Interfaces
 {
     public interface IValidator<TEntity> where TEntity : class
     {

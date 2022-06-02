@@ -13,7 +13,7 @@ namespace Store.Models
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Картинка продукта в формате Base64 (не обязательно).")]
-        public string Base64Img { get; set; }
+        [Display(Name = "Картинка продукта в формате Base64 или ссылка на картинку (не обязательно).")]
+        public string Base64ImgOrUrl { get; set; }
     }
 }

@@ -3,17 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Repository.Models;
 using Store.Models;
+using Store.Validator.Interfaces;
 
 namespace Store.Controllers
 {
     public class CatalogController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly IValidator<AddProductViewModel> _validatorAddProductViewModel;
         private readonly IMapper _mapper;
 
-        public CatalogController(IProductRepository productRepository, IMapper mapper)
+
+        public CatalogController(IProductRepository productRepository, 
+            IValidator<AddProductViewModel> validatorAddProductViewModel, 
+            IMapper mapper)
         {
             _productRepository = productRepository;
+            _validatorAddProductViewModel = validatorAddProductViewModel;
             _mapper = mapper;
         }
 
@@ -22,13 +28,17 @@ namespace Store.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductViewModel createProduct)
         {
+            /*
             if (await _productRepository.GetByIdAsync(createProduct.Id) != null)
                 ModelState.AddModelError("Id", "Продукт с таким Id уже есть.");
 
             if (await _productRepository.GetByNameAsync(createProduct.Name) != null)
                 ModelState.AddModelError("Name", "Продукт с таким Name уже есть.");
+            */
 
-            if(ModelState.IsValid)
+            await _validatorAddProductViewModel.Validate(ModelState, createProduct);
+
+            if (ModelState.IsValid)
             {
                 await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
 
