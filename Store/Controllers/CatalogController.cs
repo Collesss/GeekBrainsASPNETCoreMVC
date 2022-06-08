@@ -36,7 +36,7 @@ namespace Store.Controllers
                 ModelState.AddModelError("Name", "Продукт с таким Name уже есть.");
             */
 
-            await _validatorAddProductViewModel.Validate(ModelState, createProduct);
+            //await _validatorAddProductViewModel.Validate(ModelState, createProduct);
 
             if (ModelState.IsValid)
             {
