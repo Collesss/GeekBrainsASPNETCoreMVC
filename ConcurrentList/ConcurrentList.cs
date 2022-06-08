@@ -9,8 +9,18 @@ namespace ConcurrentList
 {
     public class ConcurrentList<T> : IList<T>
     {
-        private readonly List<T> _list = new List<T>();
+        private readonly List<T> _list;
         private readonly object _syncObject = new object();
+
+        public ConcurrentList() 
+        {
+            _list = new List<T>();
+        }
+
+        public ConcurrentList(IEnumerable<T> collection)
+        {
+            _list = new List<T>(collection);
+        }
 
         T IList<T>.this[int index]
         {
@@ -89,7 +99,11 @@ namespace ConcurrentList
         {
             lock (_syncObject)
             {
-                return _list.GetEnumerator();
+                /*
+                для решения проблемы с вылетом exception при изменении версии листа будет просто возвращён Enumerator нового листа. см. проект ConsoleAppTest.
+                не очень эфективно зато просто и работает.
+                */
+                return _list.ToList().GetEnumerator();
             }
         }
 

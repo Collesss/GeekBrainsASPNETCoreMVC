@@ -10,16 +10,16 @@ namespace Store.Controllers
     public class CatalogController : Controller
     {
         private readonly IProductRepository _productRepository;
-        private readonly IValidator<AddProductViewModel> _validatorAddProductViewModel;
+        //private readonly IValidator<AddProductViewModel> _validatorAddProductViewModel;
         private readonly IMapper _mapper;
 
 
         public CatalogController(IProductRepository productRepository, 
-            IValidator<AddProductViewModel> validatorAddProductViewModel, 
+            //IValidator<AddProductViewModel> validatorAddProductViewModel, 
             IMapper mapper)
         {
             _productRepository = productRepository;
-            _validatorAddProductViewModel = validatorAddProductViewModel;
+            //_validatorAddProductViewModel = validatorAddProductViewModel;
             _mapper = mapper;
         }
 
@@ -38,14 +38,14 @@ namespace Store.Controllers
 
             //await _validatorAddProductViewModel.Validate(ModelState, createProduct);
 
-            if (ModelState.IsValid)
-            {
-                await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
+            //if (ModelState.IsValid)
+            //{
+            await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
 
-                return RedirectToAction("Products");
-            }
+            return RedirectToAction("Products");
+            //}
 
-            return View(createProduct);
+            //return View(createProduct);
         }
 
         [HttpGet]

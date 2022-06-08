@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.DataInList", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository.DataInList.TestData", "Repository.DataInList.TestData\Repository.DataInList.TestData.csproj", "{17EA96DB-1827-43DC-8B91-06BD6B1B7751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConcurrentList", "ConcurrentList\ConcurrentList.csproj", "{AC3E3E60-8D39-44D6-A3BE-3E302470224A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConcurrentList", "ConcurrentList\ConcurrentList.csproj", "{AC3E3E60-8D39-44D6-A3BE-3E302470224A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTest", "ConsoleAppTest\ConsoleAppTest.csproj", "{1EFAC196-2203-4ACC-8DC1-78B2F623B8E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AC3E3E60-8D39-44D6-A3BE-3E302470224A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC3E3E60-8D39-44D6-A3BE-3E302470224A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC3E3E60-8D39-44D6-A3BE-3E302470224A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EFAC196-2203-4ACC-8DC1-78B2F623B8E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EFAC196-2203-4ACC-8DC1-78B2F623B8E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EFAC196-2203-4ACC-8DC1-78B2F623B8E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EFAC196-2203-4ACC-8DC1-78B2F623B8E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
