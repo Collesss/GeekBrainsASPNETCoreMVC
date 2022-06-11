@@ -1,0 +1,42 @@
+﻿@using Repository.Models
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<table>
+    <caption align="top">Список товаров</caption>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td>@product.Id</td>
+            <td>@product.Name</td>
+            <td><img src="@product.Base64ImgOrUrl"/></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<style>
+    td, th{
+        text-align: center;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+    caption{
+        text-align: center;
+    }
+    table{
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
