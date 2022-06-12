@@ -9,6 +9,7 @@ namespace Store.AutoMapperProfiles
         public AutoMapperProfile()
         {
             CreateMap<AddProductViewModel, Product>();
+            CreateMap<RemoveProductViewModel, Product>();
         }
     }
 }

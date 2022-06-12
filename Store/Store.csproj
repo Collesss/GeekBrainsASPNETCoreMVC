@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Repository.DataInList.TestData\Repository.DataInList.TestData.csproj" />
-    <ProjectReference Include="..\Repository.DataInList\Repository.DataInList.csproj" />
+    <ProjectReference Include="..\Repository.DataInConcurrentDictionary.TestData\Repository.DataInConcurrentDictionary.TestData.csproj" />
+    <ProjectReference Include="..\Repository.DataInConcurrentDictionary\Repository.DataInConcurrentDictionary.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
   </ItemGroup>
 

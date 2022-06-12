@@ -5,7 +5,7 @@ namespace Store.Models
     public class AddProductViewModel
     {
         [Required(ErrorMessage = "Id не может быть пустым.")]
-        [Range(1, int.MaxValue, ErrorMessage = "Id должен быть положительным")]
+        [Range(1, int.MaxValue, ErrorMessage = "Id должен быть положительным.")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Name не может быть пустым.")]

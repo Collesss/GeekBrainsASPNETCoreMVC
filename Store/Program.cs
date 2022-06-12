@@ -1,10 +1,7 @@
-using Repository.DataInList;
-using Repository.DataInList.TestData.Extensions;
+using Repository.DataInConcurrentDictionary;
+using Repository.DataInConcurrentDictionary.TestData.Extensions;
 using Repository.Interfaces;
 using Store.AutoMapperProfiles;
-using Store.Models;
-using Store.Validator.Implementation;
-using Store.Validator.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +13,6 @@ builder.Services.AddAutoMapper(cfg =>
 });
 builder.Services.AddTestProductsData();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IValidator<AddProductViewModel>, ValidatorAddProductViewModel>();
 
 var app = builder.Build();
 
