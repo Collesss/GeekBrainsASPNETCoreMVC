@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Repository.Models;
+using Store.MailSender;
+using Store.MailSender.MailKit;
 using Store.Models;
 
 namespace Store.Controllers
@@ -10,11 +12,13 @@ namespace Store.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
-
+        private readonly IMailSender<MessageData> _mailSender;
 
         public CatalogController(IProductRepository productRepository, 
-            IMapper mapper)
+            IMapper mapper,
+            IMailSender<MessageData> mailSender)
         {
+            _mailSender = mailSender;
             _productRepository = productRepository;
             _mapper = mapper;
         }
@@ -36,7 +40,12 @@ namespace Store.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductViewModel createProduct)
         {
-            await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
+            var product = await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
+
+            _mailSender.Send(new MessageData { 
+                Subject = "Товар добавлен.", 
+                Message = $"{{\n\tId: {product.Id};\n\tName: {product.Name};\n\tBase64ImgOrUrl: {product.Base64ImgOrUrl}}}"
+            });
 
             return RedirectToAction("Products");
         }

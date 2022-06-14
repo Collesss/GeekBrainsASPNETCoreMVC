@@ -1,7 +1,11 @@
+using Microsoft.Extensions.Options;
 using Repository.DataInConcurrentDictionary;
 using Repository.DataInConcurrentDictionary.TestData.Extensions;
 using Repository.Interfaces;
 using Store.AutoMapperProfiles;
+using Store.MailSender;
+using Store.MailSender.MailKit;
+using Store.MailSender.MailKit.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +16,9 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddProfile<AutoMapperProfile>();
 });
 builder.Services.AddTestProductsData();
+builder.Services.AddSingleton<IOptions<IOptionMailSender>>(Options.Create(builder.Configuration.GetSection("EmailSetting").Get<OptionMailSender>()));
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IMailSender<MessageData>, MailSender>();
 
 var app = builder.Build();
 

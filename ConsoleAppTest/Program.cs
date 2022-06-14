@@ -1,4 +1,6 @@
-﻿namespace ConsoleAppTest
+﻿using ConcurrentList;
+
+namespace ConsoleAppTest
 {
     internal class Program
     {
@@ -6,9 +8,6 @@
 
         static void Main(string[] args)
         {
-            Random random = new Random();
-
-            ints.AddRange(Enumerable.Range(0, 10).Select(i => random.Next()));
 
             Task.Run(ChangeList);
 

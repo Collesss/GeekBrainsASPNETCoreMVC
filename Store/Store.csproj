@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Repository.DataInConcurrentDictionary.TestData\Repository.DataInConcurrentDictionary.TestData.csproj" />
     <ProjectReference Include="..\Repository.DataInConcurrentDictionary\Repository.DataInConcurrentDictionary.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
+    <ProjectReference Include="..\Store.MailSender.MailKit\Store.MailSender.MailKit.csproj" />
   </ItemGroup>
 
 </Project>
