@@ -1,0 +1,20 @@
+﻿@model AddProductViewModel
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+@using(Html.BeginForm())
+{
+    <div asp-validation-summary="ModelOnly"></div>
+
+    @Html.EditorForModel();
+
+    <input value="Добавить" type="submit"/>
+}
+
+<style>
+    input[type="submit"] {
+        margin-top: 10px;
+    }
+</style>
