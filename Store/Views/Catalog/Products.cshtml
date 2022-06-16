@@ -6,7 +6,7 @@
 }
 
 <table>
-    <caption align="top">Список товаров<br />Количество товаров: @Model.Count()</caption>
+    <caption align="top">Список товаров<br />Количество товаров: @(Model?.Count() ?? 0)</caption>
     <thead>
         <tr>
             <th>Id</th>
@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var product in Model)
+    @foreach (var product in (Model ?? new Product[0]))
     {
         <tr>
             <td>@product.Id</td>
