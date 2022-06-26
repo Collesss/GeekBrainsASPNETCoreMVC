@@ -8,6 +8,6 @@ namespace Store.MailSender
 {
     public interface IMailSender<in T> where T : IMessageData
     {
-        public void Send(T messageData);
+        public Task Send(T messageData);
     }
 }

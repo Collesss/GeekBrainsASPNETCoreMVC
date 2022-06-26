@@ -15,7 +15,7 @@ namespace Store.MailSender.MailKit
             _optionMailSender = optionMailSender.Value;
         }
 
-        void IMailSender<MessageData>.Send(MessageData messageData)
+        async Task IMailSender<MessageData>.Send(MessageData messageData)
         {
             MimeMessage mimeMessage = new();
 
@@ -28,10 +28,10 @@ namespace Store.MailSender.MailKit
             };
 
             using var emailClient = new SmtpClient();
-            emailClient.Connect(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false);
-            emailClient.Authenticate(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword);
-            emailClient.Send(mimeMessage);
-            emailClient.Disconnect(true);
+            await emailClient.ConnectAsync(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false);
+            await emailClient.AuthenticateAsync(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword);
+            await emailClient.SendAsync(mimeMessage);
+            await emailClient.DisconnectAsync(true);
         }
     }
 }
