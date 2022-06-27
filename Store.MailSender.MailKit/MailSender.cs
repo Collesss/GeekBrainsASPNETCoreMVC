@@ -6,13 +6,31 @@ using Store.MailSender.MailKit.Options;
 
 namespace Store.MailSender.MailKit
 {
-    public class MailSender : IMailSender<MessageData>
+    public class MailSender : IMailSender<MessageData>, IDisposable, IAsyncDisposable
     {
         private readonly IOptionMailSender _optionMailSender;
+        private readonly SmtpClient _smtpClient;
 
         public MailSender(IOptions<IOptionMailSender> optionMailSender)
         {
             _optionMailSender = optionMailSender.Value;
+            _smtpClient = new SmtpClient();
+        }
+
+        public void Dispose()
+        {
+            if (_smtpClient.IsConnected)
+                _smtpClient.Disconnect(true);
+
+            _smtpClient.Dispose();
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (_smtpClient.IsConnected)
+                await _smtpClient.DisconnectAsync(true);
+
+            _smtpClient.Dispose();
         }
 
         async Task IMailSender<MessageData>.Send(MessageData messageData)
@@ -27,11 +45,11 @@ namespace Store.MailSender.MailKit
                 Text = messageData.Message
             };
 
-            using var emailClient = new SmtpClient();
-            await emailClient.ConnectAsync(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false);
-            await emailClient.AuthenticateAsync(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword);
-            await emailClient.SendAsync(mimeMessage);
-            await emailClient.DisconnectAsync(true);
+            //using var emailClient = new SmtpClient();
+            await _smtpClient.ConnectAsync(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false);
+            await _smtpClient.AuthenticateAsync(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword);
+            await _smtpClient.SendAsync(mimeMessage);
+            await _smtpClient.DisconnectAsync(true);
         }
     }
 }

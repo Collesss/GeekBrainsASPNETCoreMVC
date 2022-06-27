@@ -29,11 +29,13 @@ namespace Store.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RemoveProduct(RemoveProductViewModel removeProduct)
+        public async Task<IActionResult> RemoveProduct(RemoveProductViewModel removeProduct, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.DeleteAsync(_mapper.Map<Product>(removeProduct));
+            var product = await _productRepository.DeleteAsync(_mapper.Map<Product>(removeProduct), cancellationToken);
 
             _logger.LogInformation("Product removed: {@Product}", product);
+
+            cancellationToken.ThrowIfCancellationRequested();
 
             return RedirectToAction("Products");
         }
@@ -44,20 +46,27 @@ namespace Store.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct(AddProductViewModel createProduct)
+        public async Task<IActionResult> AddProduct(AddProductViewModel createProduct, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.AddAsync(_mapper.Map<Product>(createProduct));
+            var product = await _productRepository.AddAsync(_mapper.Map<Product>(createProduct), cancellationToken);
 
             _logger.LogInformation("Product added: {@Product}", product);
 
+            cancellationToken.ThrowIfCancellationRequested();
+                
             var policy = Policy.Handle<Exception>()
                 .RetryAsync(3, (e, retryCount) => _logger.LogWarning("Error while sending email. Retrying: {Attempt}", retryCount));
 
-            var policyRes = await policy.ExecuteAndCaptureAsync(() => _mailSender.Send(new MessageData
-            {
-                Subject = "Товар добавлен.",
-                Message = $"{{\n\tId: {product.Id};\n\tName: {product.Name};\n\tBase64ImgOrUrl: {product.Base64ImgOrUrl}}}"
-            }));
+            var policyRes = await policy.ExecuteAndCaptureAsync(async () => {
+
+                cancellationToken.ThrowIfCancellationRequested();
+
+                await _mailSender.Send(new MessageData
+                {
+                    Subject = "Товар добавлен.",
+                    Message = $"{{\n\tId: {product.Id};\n\tName: {product.Name};\n\tBase64ImgOrUrl: {product.Base64ImgOrUrl}}}"
+                });
+            });
 
             if (policyRes.Outcome == OutcomeType.Failure)
                 _logger.LogError(policyRes.FinalException, "There was an error while sending email.");
@@ -71,6 +80,8 @@ namespace Store.Controllers
             });
             */
 
+            cancellationToken.ThrowIfCancellationRequested();
+
             return RedirectToAction("Products");
         }
 
@@ -79,7 +90,7 @@ namespace Store.Controllers
             View();
 
         [HttpGet]
-        public async Task<IActionResult> Products() =>
-            View((await _productRepository.GetAllAsync()).OrderBy(product => product.Id));
+        public async Task<IActionResult> Products(CancellationToken cancellationToken) =>
+            View((await _productRepository.GetAllAsync(cancellationToken)).OrderBy(product => product.Id));
     }
 }
