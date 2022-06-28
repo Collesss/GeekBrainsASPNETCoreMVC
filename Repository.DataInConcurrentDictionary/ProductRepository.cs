@@ -19,17 +19,17 @@ namespace Repository.DataInConcurrentDictionary
         {
             _products = products;
         }
-
-        public Task<IEnumerable<Product>> GetAllAsync() =>
+        
+        public Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = new CancellationToken()) =>
             Task.FromResult<IEnumerable<Product>>(_products.Values);
 
-        public Task<Product> GetByIdAsync(int id) =>
+        public Task<Product> GetByIdAsync(int id, CancellationToken cancellationToken = new CancellationToken()) =>
             Task.FromResult(_products.Values.FirstOrDefault(product => product.Id == id));
 
-        public Task<Product> GetByNameAsync(string name) =>
+        public Task<Product> GetByNameAsync(string name, CancellationToken cancellationToken = new CancellationToken()) =>
              Task.FromResult(_products.Values.FirstOrDefault(product => product.Name == name));
 
-        public Task<Product> AddAsync(Product entity)
+        public Task<Product> AddAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -51,7 +51,7 @@ namespace Repository.DataInConcurrentDictionary
             }
         }
 
-        public Task<Product> DeleteAsync(Product entity)
+        public Task<Product> DeleteAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
@@ -69,7 +69,7 @@ namespace Repository.DataInConcurrentDictionary
             }
         }
 
-        public Task<Product> UpdateAsync(Product entity)
+        public Task<Product> UpdateAsync(Product entity, CancellationToken cancellationToken = new CancellationToken())
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
