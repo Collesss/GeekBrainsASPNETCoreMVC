@@ -33,7 +33,7 @@ namespace Store.MailSender.MailKit
             _smtpClient.Dispose();
         }
 
-        async Task IMailSender<MessageData>.Send(MessageData messageData)
+        async Task IMailSender<MessageData>.Send(MessageData messageData, CancellationToken cancellationToken)
         {
             MimeMessage mimeMessage = new();
 
@@ -46,10 +46,10 @@ namespace Store.MailSender.MailKit
             };
 
             //using var emailClient = new SmtpClient();
-            await _smtpClient.ConnectAsync(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false);
-            await _smtpClient.AuthenticateAsync(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword);
-            await _smtpClient.SendAsync(mimeMessage);
-            await _smtpClient.DisconnectAsync(true);
+            await _smtpClient.ConnectAsync(_optionMailSender.SmtpServer, _optionMailSender.SmtpPort, false, cancellationToken);
+            await _smtpClient.AuthenticateAsync(_optionMailSender.SmtpUsername, _optionMailSender.SmtpPassword, cancellationToken);
+            await _smtpClient.SendAsync(mimeMessage, cancellationToken);
+            //await _smtpClient.DisconnectAsync(true);
         }
     }
 }

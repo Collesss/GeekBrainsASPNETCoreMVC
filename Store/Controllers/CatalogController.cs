@@ -57,16 +57,15 @@ namespace Store.Controllers
             var policy = Policy.Handle<Exception>()
                 .RetryAsync(3, (e, retryCount) => _logger.LogWarning("Error while sending email. Retrying: {Attempt}", retryCount));
 
-            var policyRes = await policy.ExecuteAndCaptureAsync(async () => {
-
-                cancellationToken.ThrowIfCancellationRequested();
+            var policyRes = await policy.ExecuteAndCaptureAsync(async cancellationToken => {
 
                 await _mailSender.Send(new MessageData
                 {
                     Subject = "Товар добавлен.",
                     Message = $"{{\n\tId: {product.Id};\n\tName: {product.Name};\n\tBase64ImgOrUrl: {product.Base64ImgOrUrl}}}"
-                });
-            });
+                }, cancellationToken);
+
+            }, cancellationToken);
 
             if (policyRes.Outcome == OutcomeType.Failure)
                 _logger.LogError(policyRes.FinalException, "There was an error while sending email.");

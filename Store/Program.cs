@@ -7,7 +7,7 @@ using Store.AutoMapperProfiles;
 using Store.MailSender;
 using Store.MailSender.MailKit;
 using Store.MailSender.MailKit.Options;
-
+using Store.NotificatorBackgroundService;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -31,6 +31,7 @@ try
     builder.Services.AddSingleton<IOptions<IOptionMailSender>>(Options.Create(builder.Configuration.GetSection("EmailSetting").Get<OptionMailSender>()));
     builder.Services.AddScoped<IProductRepository, ProductRepository>();
     builder.Services.AddScoped<IMailSender<MessageData>, MailSender>();
+    builder.Services.AddHostedService<NotificatorBackgroundService>();
 
     var app = builder.Build();
 

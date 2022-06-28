@@ -19,6 +19,9 @@
     <ProjectReference Include="..\Repository.DataInConcurrentDictionary\Repository.DataInConcurrentDictionary.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
     <ProjectReference Include="..\Store.MailSender.MailKit\Store.MailSender.MailKit.csproj" />
+    <ProjectReference Include="..\Store.NotificatorBackgroundService\Store.NotificatorBackgroundService.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
