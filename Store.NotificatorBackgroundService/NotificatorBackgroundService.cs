@@ -12,17 +12,17 @@ namespace Store.NotificatorBackgroundService
 {
     public class NotificatorBackgroundService : BackgroundService
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<NotificatorBackgroundService> _logger;
         private readonly OptionsNotificator _options;
 
-        public NotificatorBackgroundService(IServiceProvider serviceProvider, 
+        public NotificatorBackgroundService(IServiceScopeFactory serviceScopeFactory, 
             ILogger<NotificatorBackgroundService> logger,
             IOptions<OptionsNotificator> options)
         {
-            _serviceProvider = serviceProvider;
-            _logger = logger;
-            _options = options.Value;
+            _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _options = options.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -36,8 +36,8 @@ namespace Store.NotificatorBackgroundService
             while(await timer.WaitForNextTickAsync(stoppingToken))
             {
                 _logger.LogInformation("Cервер работает уже {WorkTime}", sw.Elapsed);
-
-                using var scope = _serviceProvider.CreateAsyncScope();
+                
+                using var scope = _serviceScopeFactory.CreateAsyncScope();
 
                 var mailSender = scope.ServiceProvider.GetRequiredService<IMailSender<MessageData>>();
 
